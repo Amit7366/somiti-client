@@ -8,7 +8,15 @@ import { AuthPortal } from "@/components/auth/AuthPortal";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useI18n } from "@/components/providers/I18nProvider";
 
-const PLANS = [
+type RegisterPlan = {
+  id: string;
+  price: number;
+  members: string;
+  nameKey: string;
+  popular?: boolean;
+};
+
+const PLANS: RegisterPlan[] = [
   { id: "trial", price: 0, members: "—", nameKey: "home.planFree" },
   { id: "starter", price: 599, members: "200", nameKey: "home.planStarter" },
   { id: "basic", price: 999, members: "1,000", nameKey: "home.planBasic" },
@@ -16,7 +24,7 @@ const PLANS = [
   { id: "professional", price: 2499, members: "5,000", nameKey: "home.planProfessional" },
   { id: "business", price: 3999, members: "8,000", nameKey: "home.planBusiness" },
   { id: "enterprise", price: 7999, members: "40,000", nameKey: "home.planEnterprise" },
-] as const;
+];
 
 const TYPES = [
   "typeCoopLending",
