@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f4efe4;
+  --foreground: #13211e;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ink: #13211e;
+  --color-forest: #0c4a45;
+  --color-forest-deep: #083633;
+  --color-pine: #14665f;
+  --color-gold: #c4a35a;
+  --color-gold-soft: #e6d3a3;
+  --color-cream: #f4efe4;
+  --color-sand: #e8dfcc;
+  --color-mist: #f8f5ee;
+  --color-brand: #2563eb;
+  --color-brand-dark: #1d4ed8;
+  --color-navy: #1e3a8a;
+  --color-navy-deep: #0b1220;
+  --color-mint: #10b981;
+  --font-sans: var(--font-hind);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-hind), "Noto Sans Bengali", Helvetica, sans-serif;
+}
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.chair-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chair-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 99px;
+}
