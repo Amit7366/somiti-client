@@ -1,8 +1,15 @@
 import type { ApiResponse } from "@/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050/api/v1";
+export const API_ORIGIN = API_URL.replace(/\/api\/v1\/?$/, "");
 const TOKEN_KEY = "somiti_token";
 const TOKEN_MAX_AGE = 7 * 24 * 60 * 60;
+
+export function mediaUrl(path?: string | null): string {
+  if (!path) return "";
+  if (/^https?:\/\//i.test(path)) return path;
+  return `${API_ORIGIN}${path.startsWith("/") ? path : `/${path}`}`;
+}
 
 export function getToken(): string | null {
   if (typeof window === "undefined") return null;
@@ -49,4 +56,32 @@ export async function api<T>(path: string, options: RequestInit = {}): Promise<A
   }
 
   return json;
+}
+
+export type UploadedAsset = {
+  url: string;
+  filename: string;
+  publicId?: string;
+  transformUrl?: string;
+  provider?: "imagelab" | "local";
+};
+
+/** Uploads via our API → ImageLab (key stays on the server). */
+export async function uploadFile(file: File): Promise<UploadedAsset> {
+  const token = getToken();
+  const body = new FormData();
+  body.append("file", file);
+
+  const res = await fetch(`${API_URL}/uploads`, {
+    method: "POST",
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    credentials: "include",
+    body,
+  });
+
+  const json = (await res.json()) as ApiResponse<UploadedAsset>;
+  if (!res.ok) {
+    throw new ApiRequestError(json.message || "Upload failed", res.status, json.errors);
+  }
+  return json.data;
 }

@@ -15,6 +15,7 @@ export interface Somiti {
   address?: string;
   phone?: string;
   email?: string;
+  registrationNo?: string;
   isActive: boolean;
   settings?: {
     currency: string;
@@ -86,6 +87,104 @@ export interface User {
   isApproved: boolean;
   permissions?: string[];
   createdAt: string;
+}
+
+export type MemberCategory =
+  | "GENERAL"
+  | "MONTHLY_SAVINGS"
+  | "DAILY_SAVINGS"
+  | "BORROWER"
+  | "SPECIAL";
+export type MemberStatus = "ACTIVE" | "INACTIVE" | "CLOSED";
+
+export interface Nominee {
+  name: string;
+  mobile: string;
+  relation?: string;
+  nationalId?: string;
+  sharePercent: number;
+  address?: string;
+  photoUrl?: string;
+  signatureUrl?: string;
+  isPrimary?: boolean;
+}
+
+export interface MemberAccountControls {
+  profileFrozen: boolean;
+  savingsFrozen: boolean;
+  dpsFrozen: boolean;
+  fdrFrozen: boolean;
+  loanFrozen: boolean;
+}
+
+export interface Member {
+  _id: string;
+  code: string;
+  name: string;
+  mobile: string;
+  category: MemberCategory;
+  status: MemberStatus;
+  joinDate: string;
+  address?: string;
+  permanentAddress?: string;
+  nid?: string;
+  fatherOrHusbandName?: string;
+  motherOrWifeName?: string;
+  annualIncome?: number;
+  admissionFee?: number;
+  passbookNo?: string;
+  gender?: string;
+  dateOfBirth?: string;
+  occupation?: string;
+  photoUrl?: string;
+  signatureUrl?: string;
+  nidFrontUrl?: string;
+  nidBackUrl?: string;
+  area?: Area | string;
+  branch?: Branch | string;
+  assignedStaff?: User | string;
+  createdBy?: User | string;
+  nominees: Nominee[];
+  accountControls?: MemberAccountControls;
+  isActive: boolean;
+  createdAt: string;
+}
+
+export type FeeType = "ADMISSION" | "FORM" | "SERVICE_CHARGE" | "LATE" | "OTHER";
+export type FeePaymentMethod = "CASH" | "MFS" | "BANK";
+export type FeeStatus = "DRAFT" | "COMPLETED";
+
+export interface FeeCollection {
+  _id: string;
+  receiptNo: string;
+  collectionDate: string;
+  feeType: FeeType;
+  feeAmount: number;
+  stampFee: number;
+  otherFee: number;
+  totalAmount: number;
+  paymentMethod: FeePaymentMethod;
+  remarks?: string;
+  status: FeeStatus;
+  printReceipt: boolean;
+  sendSms: boolean;
+  member: Member | string;
+  area?: Area | string;
+  branch?: Branch | string;
+  somiti?: Somiti | string;
+  collectedBy?: User | string;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface FeeSummary {
+  totalAmount: number;
+  totalEntries: number;
+  todayAmount: number;
+  todayEntries: number;
+  serviceChargeAmount: number;
+  admissionOtherAmount: number;
+  dailyTarget: number;
 }
 
 export interface ApiResponse<T> {
